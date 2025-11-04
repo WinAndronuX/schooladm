@@ -41,4 +41,7 @@
 *.dwo
 
 .cache/
+.fleet/
+.vscode/
+.idea/
 build/
