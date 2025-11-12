@@ -45,3 +45,5 @@
 .vscode/
 .idea/
 build/
+reports/
+reportes/
