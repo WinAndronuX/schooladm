@@ -7,9 +7,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_executable(schooladm
     src/main.cpp
+    src/menu.cpp
+    src/reports.cpp
+    src/utils.cpp
 )
 
 target_include_directories(schooladm
     PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        include
 )

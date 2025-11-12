@@ -1,6 +1,7 @@
-#include "../include/schooladm/utilidades.hpp"
 #include <iostream>
 #include <vector>
+#include <schooladm/utils.hpp>
+
 
 using namespace std;
 
@@ -11,7 +12,6 @@ int main()
 
     while (true)
     {
-        system("cls");
         cout << "=== MENU PRINCIPAL ===\n"
              << "1. Sistema\n"
              << "2. Funciones\n"
@@ -28,10 +28,8 @@ int main()
         else
         {
             cout << "Opcion invalida.\n";
-            system("pause");
         }
     }
 
-    system("pause");
     return 0;
 }

@@ -1,3 +1,19 @@
+#ifndef UTILS_H
+#define UTILS_H
+
+#include <string>
+#include <vector>
+
+#ifdef _WIN32
+#define clearConsole() system("cls")
+#define REPORTS_USERS_DIR "..\\reports\\alumnos.csv"
+#define REPORTS_REPORT_DIR "..\\reports\\reporte.txt"
+#else
+#define clearConsole() system("clear")
+#define REPORTS_USERS_DIR "./reports/alumnos.csv"
+#define REPORTS_REPORT_DIR "./reports/reporte.txt"
+#endif
+
 using namespace std;
 
 struct Registro
@@ -9,20 +25,8 @@ struct Registro
     float promedio;
 };
 
-string input;
-long readLong(const string &msg)
-{
-    cout << msg;
-    getline(cin, input);
-    return stol(input);
-}
-
-float readFloat(const string &msg)
-{
-    cout << msg;
-    getline(cin, input);
-    return stof(input);
-}
+long readLong(const string &msg);
+float readFloat(const string &msg);
 
 vector<Registro> leerFichero(const string &nombreFichero);
 void escribirFichero(const string &nombreFichero, const vector<Registro> &registros);
@@ -42,3 +46,5 @@ float obtenerDesviacionEstandar(const vector<Registro> &registros);
 
 void menuSistema(vector<Registro> &registros);
 void menuFunciones(vector<Registro> &registros);
+
+#endif

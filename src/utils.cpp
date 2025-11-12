@@ -5,14 +5,29 @@
 #include <cmath>
 #include <algorithm>
 #include <string>
-#include "include/schooladm/utilidades.hpp"
+#include <schooladm/utils.hpp>
+
+long readLong(const string &msg) {
+    string input;
+
+    cout << msg;
+    getline(cin, input);
+    return stol(input);
+}
+
+float readFloat(const string &msg) {
+    string input;
+
+    cout << msg;
+    getline(cin, input);
+    return stof(input);
+}
 
 void menuSistema(vector<Registro> &registros)
 {
     string option;
     while (true)
     {
-        system("cls");
         cout << "=== SISTEMA ===\n"
              << "1. Agregar alumno\n"
              << "2. Eliminar alumno\n"
@@ -24,29 +39,25 @@ void menuSistema(vector<Registro> &registros)
         if (option == "1")
         {
             agregarAlumno(registros);
-            escribirFichero("..\\reportes\\alumnos.csv", registros);
-            system("pause");
+            escribirFichero(REPORTS_USERS_DIR, registros);
         }
         else if (option == "2")
         {
             long m = readLong("Matricula a eliminar: ");
             eliminarAlumno(registros, m);
-            escribirFichero("..\\reportes\\alumnos.csv", registros);
-            system("pause");
+            escribirFichero(REPORTS_USERS_DIR, registros);
         }
         else if (option == "3")
         {
             long m = readLong("Matricula a modificar: ");
             modificarAlumno(registros, m);
-            escribirFichero("..\\reportes\\alumnos.csv", registros);
-            system("pause");
+            escribirFichero(REPORTS_USERS_DIR, registros);
         }
         else if (option == "4")
             return;
         else
         {
             cout << "Opcion invalida.\n";
-            system("pause");
         }
     }
 }
@@ -56,7 +67,6 @@ void menuFunciones(vector<Registro> &registros)
     string option;
     while (true)
     {
-        system("cls");
         cout << "=== FUNCIONES ===\n"
              << "1. Imprimir datos\n"
              << "2. Aprobados\n"
@@ -71,34 +81,28 @@ void menuFunciones(vector<Registro> &registros)
         {
             long m = readLong("Matricula: ");
             imprimirDatos(registros, m);
-            system("pause");
         }
         else if (option == "2")
         {
             imprimirAprobados(registros);
-            system("pause");
         }
         else if (option == "3")
         {
             imprimirReprobados(registros);
-            system("pause");
         }
         else if (option == "4")
         {
             imprimirTop(registros);
-            system("pause");
         }
         else if (option == "5")
         {
             crearReporte(registros);
-            system("pause");
         }
         else if (option == "6")
             return;
         else
         {
             cout << "Opcion invalida.\n";
-            system("pause");
         }
     }
 }
@@ -234,7 +238,7 @@ void imprimirTop(const vector<Registro> &registros)
 
 void crearReporte(const vector<Registro> &registros)
 {
-    ofstream file("..\\reportes\\reporte.txt");
+    ofstream file(REPORTS_REPORT_DIR);
     for (auto &r : registros)
         file << r.nombre << " " << r.apellido << " (" << r.matricula << ") Promedio: " << r.promedio << "\n";
     file << "\nPromedio grupal: " << obtenerPromedioGrupal(registros);
