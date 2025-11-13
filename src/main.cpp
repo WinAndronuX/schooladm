@@ -1,12 +1,18 @@
 #include <iostream>
+#include <string>
 #include <vector>
 #include <schooladm/students.hpp>
 #include <schooladm/menu.hpp>
 #include <schooladm/utils.hpp>
 #include <schooladm/reports.hpp>
+#include <schooladm/users.hpp>
+#include <schooladm/login.hpp>
 
-int main()
-{
+using namespace std;
+
+void studentsMenu() {
+    clearConsole();
+
     vector<Student> registros = getFileAsVector(REPORTS_USERS_DIR);
     string opcion;
 
@@ -28,6 +34,27 @@ int main()
         else
         {
             cout << "Opcion invalida.\n";
+        }
+    }
+}
+
+int main() {
+
+    usersInit();
+
+    bool exit = false;
+    while (!exit) {
+        switch(login()) {
+        default:
+        case 0:
+            exit = true;
+            break;
+        case 1:
+            studentsMenu();
+            break;
+        case 2:
+            adminMenu();
+            break;
         }
     }
 

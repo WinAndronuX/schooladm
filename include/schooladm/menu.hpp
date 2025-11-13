@@ -20,4 +20,6 @@ using namespace std;
 void systemMenu(vector<Student> &registros);
 void funcMenu(vector<Student> &registros);
 
+void adminMenu();
+
 #endif
