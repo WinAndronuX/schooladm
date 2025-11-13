@@ -11,110 +11,87 @@ void studentsMenu() {
     clearConsole();
 
     vector<Student> registros = getFileAsVector(REPORTS_USERS_DIR);
-    string opcion;
 
-    while (true)
-    {
-        cout << "=== MENU PRINCIPAL ===\n"
-             << "1. Sistema\n"
-             << "2. Funciones\n"
-             << "3. Salir\n"
-             << "Opcion: ";
-        getline(cin, opcion);
+    while (true) {
+        cout << "=== MENU PRINCIPAL ===\n\n"
+             << "Elige una opcion:\n"
+             << "\t1. Sistema\n"
+             << "\t2. Funciones\n"
+             << "\n"
+             << "\t0. Regresar\n";
 
-        if (opcion == "1")
-            systemMenu(registros);
-        else if (opcion == "2")
-            funcMenu(registros);
-        else if (opcion == "3")
+        switch (inputInt("", 0, 2)) {
+        case 0:
+            return;
             break;
-        else
-        {
-            cout << "Opcion invalida.\n";
+        case 1:
+            systemMenu();
+            break;
+        case 2:
+            funcMenu();
+            break;
         }
     }
 }
 
-void systemMenu(vector<Student> &)
-{
-    string option;
-    while (true)
-    {
-        cout << "=== SISTEMA ===\n"
-             << "1. Agregar alumno\n"
-             << "2. Eliminar alumno\n"
-             << "3. Modificar alumno\n"
-             << "4. Volver\n"
-             << "Opcion: ";
-        getline(cin, option);
+void systemMenu() {
+    clearConsole();
 
-        if (option == "1")
-        {
+    while (true) {
+        cout << "=== SISTEMA ===\n\n"
+             << "Elige una opcion:\n"
+             << "\t1. Agregar alumno\n"
+             << "\t2. Eliminar alumno\n"
+             << "\t3. Modificar alumno\n\n"
+             << "\t0. Volver";
+
+        switch (inputInt("", 0, 3)) {
+        case 0:
+            return;
+            break;
+        case 1:
             addStudent();
             writeOnFile(REPORTS_USERS_DIR, getStudentsVector());
-        }
-        else if (option == "2")
-        {
-            long m = readLong("Matricula a eliminar: ");
-            deleteStudent(m);
+        case 2:
+            deleteStudent(inputInt("Matricula a eliminar: ", 0));
             writeOnFile(REPORTS_USERS_DIR, getStudentsVector());
-        }
-        else if (option == "3")
-        {
-            long m = readLong("Matricula a modificar: ");
-            modifyStudent(m);
+        case 3:
+            modifyStudent(inputInt("Matricula a modificar: ", 0));
             writeOnFile(REPORTS_USERS_DIR, getStudentsVector());
-        }
-        else if (option == "4")
-            return;
-        else
-        {
-            cout << "Opcion invalida.\n";
         }
     }
 }
 
-void funcMenu(vector<Student> &)
-{
-    string option;
-    while (true)
-    {
-        cout << "=== FUNCIONES ===\n"
-             << "1. Imprimir datos\n"
-             << "2. Aprobados\n"
-             << "3. Reprobados\n"
-             << "4. Top 3\n"
-             << "5. Generar reporte\n"
-             << "6. Volver\n"
-             << "Opcion: ";
-        getline(cin, option);
+void funcMenu() {
+    while (true) {
+        cout << "=== FUNCIONES ===\n\n"
+             << "Elige una opcion:"
+             << "\t1. Imprimir datos\n"
+             << "\t2. Aprobados\n"
+             << "\t3. Reprobados\n"
+             << "\t4. Top 3\n"
+             << "\t5. Generar reporte\n\n"
+             << "\t0. Volver";
 
-        if (option == "1")
-        {
-            long m = readLong("Matricula: ");
-            showStudent( m);
-        }
-        else if (option == "2")
-        {
-            showApprovedStudents();
-        }
-        else if (option == "3")
-        {
-            showFailedStudents();
-        }
-        else if (option == "4")
-        {
-            showTopStudents();
-        }
-        else if (option == "5")
-        {
-            exportReport(getStudentsVector());
-        }
-        else if (option == "6")
+        switch (inputInt("", 0, 5)) {
+        case 0:
             return;
-        else
-        {
-            cout << "Opcion invalida.\n";
+            break;
+        case 1:
+            showStudent(inputInt("Matricula: ", 0));
+            break;
+        case 2:
+            showApprovedStudents();
+            break;
+        case 3:
+            showFailedStudents();
+            break;
+        case 4:
+            showTopStudents();
+            break;
+        case 5:
+            exportReport(getStudentsVector());
+            break;
         }
     }
 }
