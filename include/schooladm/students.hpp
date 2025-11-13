@@ -16,8 +16,7 @@
 
 using namespace std;
 
-struct Student
-{
+struct Student {
     string name;
     string lastName;
     long studentId;
@@ -25,16 +24,20 @@ struct Student
     float average;
 };
 
-void addStudent(vector<Student> &registros);
-void modifyStudent(vector<Student> &registros, long matricula);
-void deleteStudent(vector<Student> &registros, long matricula);
+void addStudent();
+void modifyStudent(long matricula);
+void deleteStudent(long matricula);
 
-void showStudent(const vector<Student> &registros, long matricula);
-void showFailedStudents(const vector<Student> &registros);
-void showApprovedStudents(const vector<Student> &registros);
-void showTopStudents(const vector<Student> &registros);
+void showStudent(long matricula);
+void showFailedStudents();
+void showApprovedStudents();
+void showTopStudents();
 
-float getGroupAverage(const vector<Student> &registros);
-float getStandardDeviation(const vector<Student> &registros);
+float getGroupAverage();
+float getStandardDeviation();
+
+bool existStudent(long matricula);
+
+vector<Student> getStudentsVector();
 
 #endif

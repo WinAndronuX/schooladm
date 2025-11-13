@@ -1,6 +1,4 @@
 #include <iostream>
-#include <fstream>
-#include <sstream>
 #include <vector>
 #include <cmath>
 #include <algorithm>
@@ -8,7 +6,9 @@
 #include <schooladm/students.hpp>
 #include <schooladm/utils.hpp>
 
-void addStudent(vector<Student> &studentsVector)
+vector<Student> studentsVector;
+
+void addStudent()
 {
     Student r;
     cout << "Nombre: ";
@@ -26,7 +26,7 @@ void addStudent(vector<Student> &studentsVector)
     studentsVector.push_back(r);
 }
 
-void modifyStudent(vector<Student> &studentsVector, long studentId)
+void modifyStudent(long studentId)
 {
     for (auto &r : studentsVector)
     {
@@ -49,7 +49,7 @@ void modifyStudent(vector<Student> &studentsVector, long studentId)
     cout << "Alumno no encontrado.\n";
 }
 
-void deleteStudent(vector<Student> &studentsVector, long studentId)
+void deleteStudent(long studentId)
 {
     studentsVector.erase(remove_if(studentsVector.begin(), studentsVector.end(),
                                    [&](const Student &r)
@@ -57,7 +57,7 @@ void deleteStudent(vector<Student> &studentsVector, long studentId)
                          studentsVector.end());
 }
 
-void showStudent(const vector<Student> &studentsVector, long studentId)
+void showStudent(const long studentId)
 {
     for (auto &r : studentsVector)
     {
@@ -72,7 +72,7 @@ void showStudent(const vector<Student> &studentsVector, long studentId)
     cout << "Alumno no encontrado.\n";
 }
 
-void showApprovedStudents(const vector<Student> &studentsVector)
+void showApprovedStudents()
 {
     for (auto &r : studentsVector)
         if (r.average >= 7)
@@ -80,7 +80,7 @@ void showApprovedStudents(const vector<Student> &studentsVector)
     cout << "\n";
 }
 
-void showFailedStudents(const vector<Student> &studentsVector)
+void showFailedStudents()
 {
     for (auto &r : studentsVector)
         if (r.average < 7)
@@ -88,7 +88,7 @@ void showFailedStudents(const vector<Student> &studentsVector)
     cout << "\n";
 }
 
-void showTopStudents(const vector<Student> &studentsVector)
+void showTopStudents()
 {
     vector<Student> aux = studentsVector;
     sort(aux.begin(), aux.end(), [](auto &a, auto &b)
@@ -97,7 +97,7 @@ void showTopStudents(const vector<Student> &studentsVector)
         cout << "Matricula: " << aux[i].studentId << " -> " << " Promedio: " << aux[i].average << "\n";
 }
 
-float getGroupAverage(const vector<Student> &studentsVector)
+float getGroupAverage()
 {
     float sum = 0;
     for (auto &r : studentsVector)
@@ -105,11 +105,24 @@ float getGroupAverage(const vector<Student> &studentsVector)
     return sum / studentsVector.size();
 }
 
-float getStandardDeviation(const vector<Student> &studentsVector)
+float getStandardDeviation()
 {
-    float average = getGroupAverage(studentsVector);
+    float average = getGroupAverage();
     float sum = 0;
     for (auto &r : studentsVector)
         sum += pow(r.average - average, 2);
     return sqrt(sum / studentsVector.size());
+}
+
+bool existStudent(long matricula) {
+
+    for (Student &s: studentsVector)
+        if (s.studentId == matricula)
+            return true;
+
+    return false;
+}
+
+vector<Student> getStudentsVector() {
+    return studentsVector;
 }
