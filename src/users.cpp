@@ -63,7 +63,6 @@ static int getUserIndexById(int userId) {
             break;
         }
 
-    cout << id << endl;
     return id;
 }
 
@@ -117,9 +116,6 @@ void usersPrint() {
 }
 
 bool usersCheckPasswd(int userId, string passwd) {
-    for (const User& u: users) {
-        cout << u.userId << " " << u.name << " " << u.lastName << " " << u.passwd << endl;
-    }
 
     int i = getUserIndexById(userId);
     if (i == -1)

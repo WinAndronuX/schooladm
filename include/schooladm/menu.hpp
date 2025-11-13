@@ -1,7 +1,6 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include <string>
 #include <vector>
 #include "students.hpp"
 
@@ -17,6 +16,7 @@
 
 using namespace std;
 
+void studentsMenu();
 void systemMenu(vector<Student> &registros);
 void funcMenu(vector<Student> &registros);
 

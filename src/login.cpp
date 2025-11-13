@@ -1,3 +1,4 @@
+#include "schooladm/students.hpp"
 #include <iostream>
 #include <schooladm/login.hpp>
 #include <schooladm/utils.hpp>
@@ -20,11 +21,14 @@ static const string loginMsg =
 "\t0 ) Salir";
 
 int login() {
+
+LOGIN:
     clearConsole();
 
     cout << loginMsg;
 
     int opc = inputInt("", 0, 2);
+    clearConsole();
 
     switch (opc) {
         case 0:
@@ -36,10 +40,17 @@ int login() {
             do {
                 int studentId = inputInt("Matricula: ", 1);
 
-                // Logica para ver que exista el alumno
-                return 1;
+                if (existStudent(studentId))
+                    return 1;
+                else
+                    printError("Credenciales incorrectas");
 
+                i++;
             } while(i < 3);
+
+            cout << "Espere 3 segundos" << endl;
+            sleepSec(3);
+            goto LOGIN;
 
             break;
         }
@@ -64,7 +75,7 @@ int login() {
 
             cout << "Espere 3 segundos" << endl;
             sleepSec(3);
-            login();
+            goto LOGIN;
 
             break;
         }

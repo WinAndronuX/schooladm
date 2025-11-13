@@ -7,7 +7,35 @@
 #include <schooladm/reports.hpp>
 #include <schooladm/users.hpp>
 
-void systemMenu(vector<Student> &studentsVector)
+void studentsMenu() {
+    clearConsole();
+
+    vector<Student> registros = getFileAsVector(REPORTS_USERS_DIR);
+    string opcion;
+
+    while (true)
+    {
+        cout << "=== MENU PRINCIPAL ===\n"
+             << "1. Sistema\n"
+             << "2. Funciones\n"
+             << "3. Salir\n"
+             << "Opcion: ";
+        getline(cin, opcion);
+
+        if (opcion == "1")
+            systemMenu(registros);
+        else if (opcion == "2")
+            funcMenu(registros);
+        else if (opcion == "3")
+            break;
+        else
+        {
+            cout << "Opcion invalida.\n";
+        }
+    }
+}
+
+void systemMenu(vector<Student> &)
 {
     string option;
     while (true)
@@ -22,20 +50,20 @@ void systemMenu(vector<Student> &studentsVector)
 
         if (option == "1")
         {
-            addStudent(studentsVector);
-            writeOnFile(REPORTS_USERS_DIR, studentsVector);
+            addStudent();
+            writeOnFile(REPORTS_USERS_DIR, getStudentsVector());
         }
         else if (option == "2")
         {
             long m = readLong("Matricula a eliminar: ");
-            deleteStudent(studentsVector, m);
-            writeOnFile(REPORTS_USERS_DIR, studentsVector);
+            deleteStudent(m);
+            writeOnFile(REPORTS_USERS_DIR, getStudentsVector());
         }
         else if (option == "3")
         {
             long m = readLong("Matricula a modificar: ");
-            modifyStudent(studentsVector, m);
-            writeOnFile(REPORTS_USERS_DIR, studentsVector);
+            modifyStudent(m);
+            writeOnFile(REPORTS_USERS_DIR, getStudentsVector());
         }
         else if (option == "4")
             return;
@@ -46,7 +74,7 @@ void systemMenu(vector<Student> &studentsVector)
     }
 }
 
-void funcMenu(vector<Student> &studentsVector)
+void funcMenu(vector<Student> &)
 {
     string option;
     while (true)
@@ -64,23 +92,23 @@ void funcMenu(vector<Student> &studentsVector)
         if (option == "1")
         {
             long m = readLong("Matricula: ");
-            showStudent(studentsVector, m);
+            showStudent( m);
         }
         else if (option == "2")
         {
-            showApprovedStudents(studentsVector);
+            showApprovedStudents();
         }
         else if (option == "3")
         {
-            showFailedStudents(studentsVector);
+            showFailedStudents();
         }
         else if (option == "4")
         {
-            showTopStudents(studentsVector);
+            showTopStudents();
         }
         else if (option == "5")
         {
-            exportReport(studentsVector);
+            exportReport(getStudentsVector());
         }
         else if (option == "6")
             return;
