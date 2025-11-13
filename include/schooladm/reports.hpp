@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include "students.hpp"
 
 #ifdef _WIN32
 #define clearConsole() system("cls")

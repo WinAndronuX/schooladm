@@ -71,7 +71,7 @@ void funcMenu(vector<Student> &studentsVector)
         }
         else if (option == "2")
         {
-            showFailedStudents(studentsVector);
+            showApprovedStudents(studentsVector);
         }
         else if (option == "3")
         {
