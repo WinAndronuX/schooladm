@@ -3,48 +3,24 @@
 
 #include <string>
 #include <vector>
+#include "students.hpp"
 
 #ifdef _WIN32
 #define clearConsole() system("cls")
-#define REPORTS_USERS_DIR "..\\reports\\alumnos.csv"
-#define REPORTS_REPORT_DIR "..\\reports\\reporte.txt"
+#define REPORTS_USERS_DIR "..\\reports\\students.csv"
+#define REPORTS_REPORT_DIR "..\\reports\\report.txt"
 #else
 #define clearConsole() system("clear")
-#define REPORTS_USERS_DIR "./reports/alumnos.csv"
-#define REPORTS_REPORT_DIR "./reports/reporte.txt"
+#define REPORTS_USERS_DIR "./reports/students.csv"
+#define REPORTS_REPORT_DIR "./reports/report.txt"
 #endif
 
 using namespace std;
 
-struct Registro
-{
-    string nombre;
-    string apellido;
-    long matricula;
-    float calificaciones[3];
-    float promedio;
-};
-
 long readLong(const string &msg);
 float readFloat(const string &msg);
 
-vector<Registro> leerFichero(const string &nombreFichero);
-void escribirFichero(const string &nombreFichero, const vector<Registro> &registros);
-
-void agregarAlumno(vector<Registro> &registros);
-void modificarAlumno(vector<Registro> &registros, long matricula);
-void eliminarAlumno(vector<Registro> &registros, long matricula);
-
-void imprimirDatos(const vector<Registro> &registros, long matricula);
-void imprimirAprobados(const vector<Registro> &registros);
-void imprimirReprobados(const vector<Registro> &registros);
-void imprimirTop(const vector<Registro> &registros);
-void crearReporte(const vector<Registro> &registros);
-
-float obtenerPromedioGrupal(const vector<Registro> &registros);
-float obtenerDesviacionEstandar(const vector<Registro> &registros);
-
-void menuSistema(vector<Registro> &registros);
-void menuFunciones(vector<Registro> &registros);
+vector<Student> getFileAsVector(const string &nombreFichero);
+void writeOnFile(const string &nombreFichero, const vector<Student> &registros);
 
 #endif

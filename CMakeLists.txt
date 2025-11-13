@@ -10,6 +10,7 @@ add_executable(schooladm
     src/menu.cpp
     src/reports.cpp
     src/utils.cpp
+    src/students.cpp
 )
 
 target_include_directories(schooladm

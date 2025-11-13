@@ -1,13 +1,13 @@
 #include <iostream>
 #include <vector>
+#include <schooladm/students.hpp>
+#include <schooladm/menu.hpp>
 #include <schooladm/utils.hpp>
-
-
-using namespace std;
+#include <schooladm/reports.hpp>
 
 int main()
 {
-    vector<Registro> registros = leerFichero("..\\reportes\\alumnos.csv");
+    vector<Student> registros = getFileAsVector(REPORTS_USERS_DIR);
     string opcion;
 
     while (true)
@@ -20,9 +20,9 @@ int main()
         getline(cin, opcion);
 
         if (opcion == "1")
-            menuSistema(registros);
+            systemMenu(registros);
         else if (opcion == "2")
-            menuFunciones(registros);
+            funcMenu(registros);
         else if (opcion == "3")
             break;
         else
