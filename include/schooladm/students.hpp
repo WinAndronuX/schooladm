@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <subjects.hpp>
 
 #ifdef _WIN32
 #define clearConsole() system("cls")
@@ -20,7 +21,7 @@ struct Student {
     string name;
     string lastName;
     long studentId;
-    float grades[3];
+    vector<Subject> Subjects;
     float average;
 };
 
