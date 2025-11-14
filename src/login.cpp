@@ -20,6 +20,8 @@ static const string loginMsg =
 "\n"
 "\t0 ) Salir";
 
+int actualStudentId = -1;
+
 int login() {
 
 LOGIN:
@@ -40,9 +42,10 @@ LOGIN:
             do {
                 int studentId = inputInt("Matricula: ", 1);
 
-                if (existStudent(studentId))
+                if (existStudent(studentId)) {
+                    actualStudentId = studentId;
                     return 1;
-                else
+                } else
                     printError("Credenciales incorrectas");
 
                 i++;

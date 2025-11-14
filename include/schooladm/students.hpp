@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include <subjects.hpp>
+#include <schooladm/subjects.hpp>
 
 #ifdef _WIN32
 #define clearConsole() system("cls")
@@ -14,6 +14,8 @@
 #define REPORTS_USERS_DIR "./reports/students.csv"
 #define REPORTS_REPORT_DIR "./reports/report.txt"
 #endif
+
+#define STUDENTS_DATA_FILE "data/students.csv"
 
 using namespace std;
 
@@ -39,6 +41,10 @@ float getStandardDeviation();
 
 bool existStudent(long matricula);
 
-vector<Student> getStudentsVector();
+vector<Student>& getStudentsVector();
+
+void recalcAverage(Student &s);
+void readStudents();
+void writeStudents();
 
 #endif

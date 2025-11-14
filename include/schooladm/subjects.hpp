@@ -3,12 +3,16 @@
 
 #include <string>
 
+using namespace std;
+
 struct Subject{
     string subjectName;
     float grade;
     int field;
 };
 
-void recalcAverage(Student &s);
+void addSubject();
+void modSubject();
+void delSubject();
 
 #endif
