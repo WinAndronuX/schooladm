@@ -10,21 +10,9 @@
 
 using namespace std;
 
-void recalcAverage(Student &s) {
-    if (s.Subjects.empty()) {
-        s.average = 0;
-        return;
-    }
-    float sum = 0;
-    for (const Subject &sub : s.Subjects) {
-        sum += sub.grade;
-    }
-    s.average = sum / s.Subjects.size();
-}
-
 void addSubject (){
     clearConsole();
-    string fieldMenu = 
+    string fieldMenu =
                         "SELECCIONE EL AREA CORRESPONDIENTE A LA ASIGNATURA"
                         "\n"
                         "Opciones:\n"
@@ -44,32 +32,32 @@ void addSubject (){
         case 2: newSubject.field = 2; break;
         case 3: newSubject.field = 3; break;
         case 4: newSubject.field = 4; break;
-        default: 
+        default:
             cout << "Opción inválida.\n";
             break;
         }
     }while(op > 4 || op < 1);
-    vector<Student> Students = getFileAsVector(REPORTS_USERS_DIR);
-    for (Student& s : Students) {
+    readStudents();
+    for (Student& s : getStudentsVector()) {
         cout << "Ingrese la calificacion para el alumno: " << s.name<<" "<<s.lastName<< "\n";
         float cal = readFloat("");
         Subject subj = newSubject;
         subj.grade = cal;
         s.Subjects.push_back(subj);
-        recalcAverage(s); 
+        recalcAverage(s);
     }
-    writeOnFile(REPORTS_USERS_DIR,Students);
+    writeStudents();
 }
 
 void modSubject() {
     string subjectName;
     cout << "ASIGNATURA A MODIFICAR: ";
     getline(cin, subjectName);
-    vector<Student> Students = getFileAsVector(REPORTS_USERS_DIR);
+    readStudents();
     bool found = false;
     string newName;
     int newField = 0;
-    for (auto &st : Students) {
+    for (auto &st : getStudentsVector()) {
         for (auto &sub : st.Subjects) {
             if (sub.subjectName == subjectName) {
                 found = true;
@@ -88,7 +76,7 @@ APPLY:
         cout << "No se encontro la Asignatura.\n";
         return;
     }
-    for (auto &st : Students) {
+    for (auto &st : getStudentsVector()) {
         for (auto &sub : st.Subjects) {
             if (sub.subjectName == subjectName) {
                 sub.subjectName = newName;
@@ -97,7 +85,7 @@ APPLY:
             }
         }
     }
-    writeOnFile(REPORTS_USERS_DIR, Students);
+    writeStudents();
     cout << "Modificación aplicada.\n";
 }
 
@@ -105,9 +93,9 @@ void delSubject() {
     string subjectName;
     cout << "ASIGNATURA A ELIMINAR: ";
     getline(cin, subjectName);
-    vector<Student> Students = getFileAsVector(REPORTS_USERS_DIR);
+    readStudents();
     bool found = false;
-    for (auto &st : Students) {
+    for (auto &st : getStudentsVector()) {
         auto &subs = st.Subjects;
         for (size_t i = 0; i < subs.size(); ) {
             if (subs[i].subjectName == subjectName) {
@@ -123,6 +111,6 @@ void delSubject() {
         cout << "No se encontró la asignatura.\n";
         return;
     }
-    writeOnFile(REPORTS_USERS_DIR, Students);
+    writeStudents();
     cout << "Asignatura eliminada de todos los estudiantes.\n";
 }

@@ -12,10 +12,7 @@
 #endif
 
 
-void studentsMenu();
-void systemMenu();
-void funcMenu();
-
+void studentsMenu(int studentId);
 void adminMenu();
 
 #endif

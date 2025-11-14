@@ -23,6 +23,7 @@ add_executable(schooladm
     src/students.cpp
     src/users.cpp
     src/login.cpp
+    src/subjects.cpp
 )
 
 target_include_directories(schooladm

@@ -10,6 +10,7 @@ using namespace std;
 
 int main() {
     usersInit();
+    readStudents();
 
     bool exit = false;
     while (!exit) {
@@ -19,7 +20,7 @@ int main() {
             exit = true;
             break;
         case 1:
-            studentsMenu();
+            studentsMenu(actualStudentId);
             break;
         case 2:
             adminMenu();
