@@ -3,11 +3,15 @@
 #include <vector>
 #include <schooladm/reports.hpp>
 #include <schooladm/students.hpp>
+#include <filesystem>
 
 using namespace std;
 
 void exportReport(const vector<Student> &studentsVector)
 {
+
+        filesystem::create_directories(filesystem::path(REPORTS_REPORT_DIR).parent_path());
+
     ofstream file(REPORTS_REPORT_DIR);
     for (auto &r : studentsVector)
         file << r.name << " " << r.lastName << " (" << r.studentId << ") Promedio: " << r.average << "\n";
