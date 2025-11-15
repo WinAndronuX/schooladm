@@ -1,3 +1,4 @@
+#include "listview/listview.h"
 #include <schooladm/utils.hpp>
 #include <iostream>
 #include <vector>
@@ -125,14 +126,20 @@ string areaName(int field) {
 }
 
 void showSubjects() {
-    readStudents(); 
+    readStudents();
 
-    cout << "Materias REGISTRADAS\n";
+    ListView* lv = listviewCreate("Materias REGISTRADAS", 2);
+
+    listviewHeadAdd(lv, "Materia", 24);
+    listviewHeadAdd(lv, "Tipo", 12);
 
     for (const Student &sd : getStudentsVector()) {
         for (const Subject &sub : sd.Subjects) {
-            cout << "- " << sub.subjectName << " Area: " << areaName(sub.field) << "\n";
+            listviewAdd(lv, sub.subjectName.c_str());
+            listviewAdd(lv, areaName(sub.field).c_str());
         }
         break;
     }
+
+    listviewFootPrint(lv);
 }
