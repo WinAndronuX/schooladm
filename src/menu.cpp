@@ -34,7 +34,7 @@ void studentsMenu(int studentId) {
             showStudent(studentId);
             break;
         case 2:
-            // func Kardex
+            printKardex(studentId);
             break;
         }
     }
@@ -58,7 +58,7 @@ START:
     "\n"
     "\t0 ) Salir";
 
-    opc = inputInt("", 0, 3);
+    opc = inputInt("", 0, 4);
 
     switch (opc) {
     case 0:

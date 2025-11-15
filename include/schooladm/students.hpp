@@ -47,4 +47,6 @@ void recalcAverage(Student &s);
 void readStudents();
 void writeStudents();
 
+void printKardex(int studentId);
+
 #endif

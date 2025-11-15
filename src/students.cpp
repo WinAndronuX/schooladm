@@ -1,4 +1,5 @@
 #include <schooladm/utils.hpp>
+#include "listview/listview.h"
 #include "schooladm/subjects.hpp"
 #include <fstream>
 #include <iostream>
@@ -14,6 +15,15 @@
 using namespace std;
 
 vector<Student> studentsVector;
+
+static int getStudentIndexByStudentId(const int studentId) {
+
+    for (int i = 0; i < studentsVector.size(); i++)
+        if (studentsVector[i].studentId == studentId)
+            return i;
+
+    return -1;
+}
 
 void readStudents() {
     studentsVector.clear();
@@ -87,7 +97,7 @@ void addStudent() {
         const vector<Subject> &existingSubjects = studentsVector[0].Subjects;
         for (const Subject &sub : existingSubjects) {
             Subject s = sub;
-            cout << "Ingrese la calificacion para " << s.subjectName << " Area: " 
+            cout << "Ingrese la calificacion para " << s.subjectName << " Area: "
                  << areaName(s.field) << ": ";
             s.grade = readFloat("");
             newStudent.Subjects.push_back(s);
@@ -211,10 +221,38 @@ float getStandardDeviation() {
 
 void showStudents() {
     readStudents();
-    cout << "Listado de Estudiantes\n";
+
+    ListView* lv = listviewCreate("Listado de Estudiantes", 4);
+
+    listviewHeadAdd(lv, "Matricula", 9);
+    listviewHeadAdd(lv, "Nombre", 18);
+    listviewHeadAdd(lv, "Apellido", 18);
+    listviewHeadAdd(lv, "Promedio", 6);
+
     for (const Student &s : getStudentsVector()) {
-        cout << "Matricula: " << s.studentId 
-             << " | Nombre: " << s.name << " " << s.lastName 
-             << " | Promedio: " << s.average << "\n";
+        listviewAdd(lv, to_string(s.studentId).c_str());
+        listviewAdd(lv, s.name.c_str());
+        listviewAdd(lv, s.lastName.c_str());
+        listviewAdd(lv, to_string(s.average).c_str());
     }
+
+    listviewFootPrint(lv);
+}
+
+void printKardex(int studentId) {
+    Student& st = studentsVector[getStudentIndexByStudentId(studentId)];
+
+    ListView* lv = listviewCreate("Kardex", 3);
+
+    listviewHeadAdd(lv, "Materia", 24);
+    listviewHeadAdd(lv, "Tipo", 12);
+    listviewHeadAdd(lv, "Calificacion", 6);
+
+    for (Subject &s : st.Subjects) {
+        listviewAdd(lv, s.subjectName.c_str());
+        listviewAdd(lv, areaName(s.field).c_str());
+        listviewAdd(lv, to_string(s.grade).c_str());
+    }
+
+    listviewFootPrint(lv);
 }
