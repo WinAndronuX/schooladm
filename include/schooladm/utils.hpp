@@ -5,33 +5,37 @@
 #include <vector>
 
 #ifdef _WIN32
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#ifndef NOBYTE
+#define NOBYTE
+#endif
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #define clearConsole() system("cls")
-#define sleepSec(s) Sleep(s * 100)
+#define sleepSec(s) Sleep((s) * 1000)
 #define REPORTS_REPORT_DIR "..\\reports\\report.txt"
 #else
 #include <unistd.h>
 #define clearConsole() system("clear")
-#define sleepSec(s) sleep(s)
+#define sleepSec(s) sleep(s)      
 #define REPORTS_REPORT_DIR "./reports/report.txt"
 #endif
-
 #define PROMPT "> "
 #define COLOR_RED "\x1b[31m"
 #define COLOR_RESET "\x1b[0m"
 
-using namespace std;
+long readLong(const std::string &msg);
+float readFloat(const std::string &msg);
 
-long readLong(const string &msg);
-float readFloat(const string &msg);
+int inputInt(std::string msg);
+int inputInt(std::string msg, int min);
+int inputInt(std::string msg, int min, int max);
+std::string inputStr(std::string msg);
 
-int inputInt(string msg);
-int inputInt(string msg, int min);
-int inputInt(string msg, int min, int max);
-string inputStr(string msg);
+std::vector<std::string> split(std::string str, char p);
 
-vector<string> split(string str, char p);
-
-void printError(string str);
+void printError(std::string str);
 
 #endif

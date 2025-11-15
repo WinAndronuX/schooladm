@@ -1,8 +1,10 @@
+#include <schooladm/utils.hpp>
 #include <iostream>
 #include <vector>
 #include <cmath>
 #include <string>
-#include <schooladm/utils.hpp>
+
+using namespace std;
 
 long readLong(const string &msg)
 {

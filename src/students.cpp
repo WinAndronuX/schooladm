@@ -1,3 +1,4 @@
+#include <schooladm/utils.hpp>
 #include "schooladm/subjects.hpp"
 #include <fstream>
 #include <iostream>
@@ -7,182 +8,65 @@
 #include <algorithm>
 #include <string>
 #include <schooladm/students.hpp>
-#include <schooladm/utils.hpp>
 #include <filesystem>
+#include <set>
+
+using namespace std;
 
 vector<Student> studentsVector;
 
 void readStudents() {
-    if (!studentsVector.empty()) {studentsVector.clear();}
-
+    studentsVector.clear();
     ifstream file(STUDENTS_DATA_FILE);
-
-    if (!file.is_open())
-        return;
-
+    if (!file.is_open()) return;
     string line;
     while (getline(file, line)) {
-
-        cout << line << endl;
         vector<string> data = split(line, ',');
-
+        if (data.size() < 5) continue;
         Student st;
-        st.studentId = stoi(data[0]);
+        st.studentId = stol(data[0]);
         st.name = data[1];
         st.lastName = data[2];
         st.average = stof(data[4]);
-
-        if (data[3] != "") {
+        if (!data[3].empty()) {
             vector<string> subjects = split(data[3], '|');
-
-            for(string subject : subjects) {
+            for (const string &subject : subjects) {
                 vector<string> value = split(subject, ':');
-                st.Subjects.push_back({value[0], stof(value[1]), stoi(value[2])});
+                if (value.size() == 3)
+                    st.Subjects.push_back({value[0], stof(value[1]), stoi(value[2])});
             }
         }
-
         studentsVector.push_back(st);
     }
-
     file.close();
 }
 
 void writeStudents() {
-
-    std::filesystem::create_directories(std::filesystem::path(STUDENTS_DATA_FILE).parent_path());
-
+    filesystem::create_directories(filesystem::path(STUDENTS_DATA_FILE).parent_path());
     ofstream file(STUDENTS_DATA_FILE);
     if (!file.is_open())
         throw runtime_error("Error. No se pudo escribir el archivo data/students.csv");
-
-    for (Student &st: studentsVector) {
+    for (const Student &st : studentsVector) {
         file << st.studentId << "," << st.name << "," << st.lastName << ",";
-
-        for (int i = 0; i < st.Subjects.size(); i++) {
+        for (size_t i = 0; i < st.Subjects.size(); ++i) {
             file << st.Subjects[i].subjectName << ":" << st.Subjects[i].grade << ":" << st.Subjects[i].field;
             if (i < st.Subjects.size() - 1) file << "|";
         }
-        file << "," << st.average;
+        file << "," << st.average << "\n";
     }
-
     file.close();
 }
 
-void addStudent()
-{
-    Student r;
-    cout << "Nombre: ";
-    getline(cin, r.name);
-
-    cout << "Apellido: ";
-    getline(cin, r.lastName);
-
-    r.studentId = readLong("Matricula: ");
-    // r.Subjects[0].field = readFloat("Calificacion 1: ");
-    // r.Subjects[1].field = readFloat("Calificacion 2: ");
-    // r.Subjects[2].field = readFloat("Calificacion 3: ");
-
-    // recalcAverage(r);
-    studentsVector.push_back(r);
-    writeStudents();
-}
-
-void modifyStudent(long studentId)
-{
-    for (auto &r : studentsVector)
-    {
-        if (r.studentId == studentId)
-        {
-            cout << "Nuevo nombre: ";
-            cin >> r.name;
-            cout << "Nuevo apellido: ";
-            cin >> r.lastName;
-            cout << "Nueva calificacion 1: ";
-            cin >> r.Subjects[0].field;
-            cout << "Nueva calificacion 2: ";
-            cin >> r.Subjects[1].field;
-            cout << "Nueva calificacion 3: ";
-            cin >> r.Subjects[2].field;
-            recalcAverage(r);
-            return;
-        }
-    }
-    cout << "Alumno no encontrado.\n";
-    writeStudents();
-}
-
-void deleteStudent(long studentId)
-{
-    studentsVector.erase(remove_if(studentsVector.begin(), studentsVector.end(),
-                                   [&](const Student &r)
-                                   { return r.studentId == studentId; }),
-                         studentsVector.end());
-    writeStudents();
-}
-
-void showStudent(const long studentId)
-{
-    for (auto &r : studentsVector)
-    {
-        if (r.studentId == studentId)
-        {
-            cout << "\nNombre: " << r.name << "\nApellido: " << r.lastName
-                 << "\nPromedio: " << r.average << "\n";
-            cout << (r.average >= 7 ? "Aprobado" : "Reprobado") << "\n";
-            return;
-        }
-    }
-    cout << "Alumno no encontrado.\n";
-}
-
-void showApprovedStudents()
-{
-    for (auto &r : studentsVector)
-        if (r.average >= 7)
-            cout << r.studentId << ", ";
-    cout << "\n";
-}
-
-void showFailedStudents()
-{
-    for (auto &r : studentsVector)
-        if (r.average < 7)
-            cout << r.studentId << ", ";
-    cout << "\n";
-}
-
-void showTopStudents()
-{
-    vector<Student> aux = studentsVector;
-    sort(aux.begin(), aux.end(), [](auto &a, auto &b)
-         { return a.average > b.average; });
-    for (int i = 0; i < min(3, (int)aux.size()); i++)
-        cout << "Matricula: " << aux[i].studentId << " -> " << " Promedio: " << aux[i].average << "\n";
-}
-
-float getGroupAverage()
-{
+void recalcAverage(Student &s) {
+    if (s.Subjects.empty()) { s.average = 0; return; }
     float sum = 0;
-    for (auto &r : studentsVector)
-        sum += r.average;
-    return sum / studentsVector.size();
-}
-
-float getStandardDeviation()
-{
-    float average = getGroupAverage();
-    float sum = 0;
-    for (auto &r : studentsVector)
-        sum += pow(r.average - average, 2);
-    return sqrt(sum / studentsVector.size());
+    for (const Subject &sub : s.Subjects) sum += sub.grade;
+    s.average = sum / s.Subjects.size();
 }
 
 bool existStudent(long matricula) {
-
-    for (Student &s: studentsVector)
-        if (s.studentId == matricula)
-            return true;
-
+    for (const Student &s : studentsVector)
+        if (s.studentId == matricula) return true;
     return false;
 }
 
@@ -190,14 +74,147 @@ vector<Student>& getStudentsVector() {
     return studentsVector;
 }
 
-void recalcAverage(Student &s) {
-    if (s.Subjects.empty()) {
-        s.average = 0;
-        return;
+void addStudent() {
+    readStudents();
+
+    Student newStudent;
+    cout << "Nombre: ";
+    getline(cin, newStudent.name);
+    cout << "Apellido: ";
+    getline(cin, newStudent.lastName);
+    newStudent.studentId = readLong("Matricula: ");
+    if (!studentsVector.empty()) {
+        const vector<Subject> &existingSubjects = studentsVector[0].Subjects;
+        for (const Subject &sub : existingSubjects) {
+            Subject s = sub;
+            cout << "Ingrese la calificacion para " << s.subjectName << " Area: " 
+                 << areaName(s.field) << ": ";
+            s.grade = readFloat("");
+            newStudent.Subjects.push_back(s);
+        }
     }
+    recalcAverage(newStudent);
+    studentsVector.push_back(newStudent);
+    writeStudents();
+    cout << "Alumno agregado correctamente.\n";
+}
+
+void showStudent(const long studentId) {
+    for (const Student &r : studentsVector) {
+        if (r.studentId == studentId) {
+            cout << "\nNombre: " << r.name
+                 << "\nApellido: " << r.lastName
+                 << "\nPromedio: " << r.average
+                 << "\n" << (r.average >= 7 ? "Aprobado" : "Reprobado") << "\n";
+            return;
+        }
+    }
+    cout << "Alumno no encontrado.\n";
+}
+
+void deleteStudent(long studentId) {
+    studentsVector.erase(remove_if(studentsVector.begin(), studentsVector.end(),
+                                   [&](const Student &r){ return r.studentId == studentId; }),
+                         studentsVector.end());
+    writeStudents();
+}
+
+void modifyStudent(long studentId) {
+    for (auto &student : studentsVector) {
+        if (student.studentId == studentId) {
+            int option;
+            do {
+                cout << "<<< Modificar Alumno >>>\n";
+                cout << "1) Cambiar nombre\n";
+                cout << "2) Cambiar apellido\n";
+                cout << "3) Modificar calificaciones\n";
+                cout << "0) Salir\n";
+                option = inputInt("Seleccione una opcion: ");
+                switch (option) {
+                    case 1: {
+                        cout << "Nuevo nombre: ";
+                        getline(cin, student.name);
+                        break;
+                    }
+                    case 2: {
+                        cout << "Nuevo apellido: ";
+                        getline(cin, student.lastName);
+                        break;
+                    }
+                    case 3: {
+                        if (student.Subjects.empty()) {
+                            cout << "El alumno no tiene materias.\n";
+                            break;
+                        }
+                        cout << "Materias del alumno:\n";
+                        for (size_t i = 0; i < student.Subjects.size(); i++) {
+                            cout << i + 1 << ") " << student.Subjects[i].subjectName
+                                 << " (Area: " << areaName(student.Subjects[i].field)
+                                 << ", Calificación: " << student.Subjects[i].grade << ")\n";
+                        }
+                        int subjIndex = inputInt("Seleccione la materia a modificar (0 para cancelar): ");
+                        if (subjIndex > 0 && subjIndex <= (int)student.Subjects.size()) {
+                            float newGrade = readFloat("Ingrese nueva calificación: ");
+                            student.Subjects[subjIndex - 1].grade = newGrade;
+                            recalcAverage(student);
+                            cout << "Calificación actualizada.\n";
+                        }
+                        break;
+                    }
+                    case 0:
+                        cout << "Saliendo del menu.\n";
+                        break;
+                    default:
+                        cout << "Opcion invalida.\n";
+                        break;
+                }
+            } while (option != 0);
+
+            writeStudents();
+            return;
+        }
+    }
+    cout << "Alumno no encontrado.\n";
+}
+
+void showApprovedStudents() {
+    for (const auto &r : studentsVector)
+        if (r.average >= 7) cout << r.studentId << ", ";
+    cout << "\n";
+}
+
+void showFailedStudents() {
+    for (const auto &r : studentsVector)
+        if (r.average < 7) cout << r.studentId << ", ";
+    cout << "\n";
+}
+
+void showTopStudents() {
+    vector<Student> aux = studentsVector;
+    sort(aux.begin(), aux.end(), [](auto &a, auto &b){ return a.average > b.average; });
+    for (int i = 0; i < min(3, (int)aux.size()); i++)
+        cout << "Matricula: " << aux[i].studentId << " -> " << " Promedio: " << aux[i].average << "\n";
+}
+
+float getGroupAverage() {
     float sum = 0;
-    for (const Subject &sub : s.Subjects) {
-        sum += sub.grade;
+    for (const auto &r : studentsVector) sum += r.average;
+    return sum / studentsVector.size();
+}
+
+float getStandardDeviation() {
+    float average = getGroupAverage();
+    float sum = 0;
+    for (const auto &r : studentsVector) sum += pow(r.average - average, 2);
+    return sqrt(sum / studentsVector.size());
+}
+
+void showStudents() {
+    readStudents();
+    cout << "Listado de Estudiantes\n";
+    for (const Student &s : getStudentsVector()) {
+        cout << "Matricula: " << s.studentId 
+             << " | Nombre: " << s.name << " " << s.lastName 
+             << " | Promedio: " << s.average << "\n";
     }
-    s.average = sum / s.Subjects.size();
 }

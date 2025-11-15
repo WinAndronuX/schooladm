@@ -1,7 +1,8 @@
+#include <schooladm/utils.hpp>
 #include <iostream>
 #include <listview/listview.h>
 #include <schooladm/users.hpp>
-#include <schooladm/utils.hpp>
+
 #include <stdexcept>
 #include <string>
 #include <vector>

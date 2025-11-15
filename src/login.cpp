@@ -1,7 +1,8 @@
+#include <schooladm/utils.hpp>
 #include "schooladm/students.hpp"
 #include <iostream>
 #include <schooladm/login.hpp>
-#include <schooladm/utils.hpp>
+
 #include <schooladm/users.hpp>
 #include <stdexcept>
 #include <string>
