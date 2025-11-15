@@ -1,11 +1,14 @@
+#include <schooladm/utils.hpp>
 #include <iostream>
 #include <string>
 #include <schooladm/menu.hpp>
 #include <schooladm/students.hpp>
-#include <schooladm/utils.hpp>
+
 #include <schooladm/reports.hpp>
 #include <schooladm/users.hpp>
 #include <schooladm/subjects.hpp>
+
+using namespace std;
 
 void studentsMenu(int studentId) {
 
@@ -96,7 +99,7 @@ COURSES:
             goto START;
             break;
         case 1:
-            // showSubjects()
+            showSubjects();
             break;
         case 2:
             addSubject();
@@ -132,7 +135,7 @@ STUDENTS:
             goto START;
             break;
         case 1:
-            // func
+            showStudents();
             break;
         case 2:
             addStudent();

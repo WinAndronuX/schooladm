@@ -14,5 +14,7 @@ struct Subject{
 void addSubject();
 void modSubject();
 void delSubject();
+void showSubjects() ;
+string areaName(int field);
 
 #endif

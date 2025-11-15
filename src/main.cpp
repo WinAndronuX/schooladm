@@ -1,7 +1,8 @@
+#include <schooladm/utils.hpp>
 #include <iostream>
 #include <schooladm/students.hpp>
 #include <schooladm/menu.hpp>
-#include <schooladm/utils.hpp>
+
 #include <schooladm/reports.hpp>
 #include <schooladm/users.hpp>
 #include <schooladm/login.hpp>

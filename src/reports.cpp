@@ -4,6 +4,8 @@
 #include <schooladm/reports.hpp>
 #include <schooladm/students.hpp>
 
+using namespace std;
+
 void exportReport(const vector<Student> &studentsVector)
 {
     ofstream file(REPORTS_REPORT_DIR);

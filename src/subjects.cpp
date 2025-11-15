@@ -1,10 +1,10 @@
-
+#include <schooladm/utils.hpp>
 #include <iostream>
 #include <vector>
 #include <string>
 #include <schooladm/menu.hpp>
 #include <schooladm/students.hpp>
-#include <schooladm/utils.hpp>
+
 #include <schooladm/reports.hpp>
 #include <schooladm/users.hpp>
 
@@ -16,7 +16,7 @@ void addSubject (){
                         "SELECCIONE EL AREA CORRESPONDIENTE A LA ASIGNATURA"
                         "\n"
                         "Opciones:\n"
-                        "\t1) Cienciass\n"
+                        "\t1) Ciencias\n"
                         "\t2) Humanidades\n"
                         "\t3) Artes\n"
                         "\t4) Idiomas\n";
@@ -113,4 +113,26 @@ void delSubject() {
     }
     writeStudents();
     cout << "Asignatura eliminada de todos los estudiantes.\n";
+}
+
+string areaName(int field) {
+    switch (field) {
+        case 1: return "Ciencias";
+        case 2: return "Humanidades";
+        case 3: return "Artes";
+        case 4: return "Idiomas";
+    }
+}
+
+void showSubjects() {
+    readStudents(); 
+
+    cout << "Materias REGISTRADAS\n";
+
+    for (const Student &sd : getStudentsVector()) {
+        for (const Subject &sub : sd.Subjects) {
+            cout << "- " << sub.subjectName << " Area: " << areaName(sub.field) << "\n";
+        }
+        break;
+    }
 }

@@ -30,7 +30,7 @@ struct Student {
 void addStudent();
 void modifyStudent(long matricula);
 void deleteStudent(long matricula);
-
+void showStudents();
 void showStudent(long matricula);
 void showFailedStudents();
 void showApprovedStudents();
