@@ -160,14 +160,14 @@ void modifyStudent(long studentId) {
                         for (size_t i = 0; i < student.Subjects.size(); i++) {
                             cout << i + 1 << ") " << student.Subjects[i].subjectName
                                  << " (Area: " << areaName(student.Subjects[i].field)
-                                 << ", Calificación: " << student.Subjects[i].grade << ")\n";
+                                 << ", Calificacion: " << student.Subjects[i].grade << ")\n";
                         }
                         int subjIndex = inputInt("Seleccione la materia a modificar (0 para cancelar): ");
                         if (subjIndex > 0 && subjIndex <= (int)student.Subjects.size()) {
-                            float newGrade = readFloat("Ingrese nueva calificación: ");
+                            float newGrade = readFloat("Ingrese nueva calificacion: ");
                             student.Subjects[subjIndex - 1].grade = newGrade;
                             recalcAverage(student);
-                            cout << "Calificación actualizada.\n";
+                            cout << "Calificacion actualizada.\n";
                         }
                         break;
                     }
