@@ -189,13 +189,13 @@ void modifyStudent(long studentId) {
 
 void showApprovedStudents() {
     for (const auto &r : studentsVector)
-        if (r.average >= 7) cout << r.studentId << ", ";
+        if (r.average >= 70) cout << r.studentId << ", ";
     cout << "\n";
 }
 
 void showFailedStudents() {
     for (const auto &r : studentsVector)
-        if (r.average < 7) cout << r.studentId << ", ";
+        if (r.average < 70) cout << r.studentId << ", ";
     cout << "\n";
 }
 
