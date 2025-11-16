@@ -34,7 +34,7 @@ void addSubject (){
         case 3: newSubject.field = 3; break;
         case 4: newSubject.field = 4; break;
         default:
-            cout << "Opción inválida.\n";
+            cout << "Opcion invalida.\n";
             break;
         }
     }while(op > 4 || op < 1);
@@ -65,7 +65,7 @@ void modSubject() {
                 cout << "Nuevo nombre (enter = igual): ";
                 getline(cin, newName);
                 if (newName.empty()) newName = sub.subjectName;
-                cout << "Nueva área (1-4, 0 = igual): ";
+                cout << "Nueva area (1-4, 0 = igual): ";
                 newField = inputInt("> ");
                 if (newField == 0) newField = sub.field;
                 goto APPLY;
@@ -87,7 +87,7 @@ APPLY:
         }
     }
     writeStudents();
-    cout << "Modificación aplicada.\n";
+    cout << "Modificacion aplicada.\n";
 }
 
 void delSubject() {
@@ -109,7 +109,7 @@ void delSubject() {
         }
     }
     if (!found) {
-        cout << "No se encontró la asignatura.\n";
+        cout << "No se encontro la asignatura.\n";
         return;
     }
     writeStudents();
